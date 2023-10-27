@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+/.vs
+/ConsoleApplication1/.vs/ConsoleApplication1
+/ConsoleApplication1/ConsoleApplication1/x64/Debug
+/ConsoleApplication1/x64/Debug
