@@ -2,7 +2,7 @@
 ## Inchon
 ### Kocharm
 오늘 배운 내용
-///
+```
 class Point
 {
 public:
@@ -28,4 +28,4 @@ public:
         return a;
     }
 };
-///
+```
