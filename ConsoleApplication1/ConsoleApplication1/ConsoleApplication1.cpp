@@ -16,7 +16,8 @@ class Point
 public:
     int x;
     int y;
-    Point(int x1, int y1)
+    //Point() {}     // null argument 허용
+    Point(int x1 = 0, int y1 = 0)   // default 값 설정
     {
         x = x1; y = y1;
     }
@@ -47,13 +48,14 @@ int main()
     printf("-5의 절대값 : %d\n", ABS(-5));
     printf("9의 절대값 : %d\n", SQUARE(ABS(9)));
 
-    Point p1(10,10), p2(20,30);
+    Point p1(10,10), p2(20,30), p3;
 //    p1.x = 10; p1.y = 10;
 //    p2.x = 20; p2.y = 30;
 
     double d = p1.Dist(p2);
-    printf("두점 p1(%d,%d), p2(%d,%d)의 거리는 %.2f, 면적은 %d 입니다.",
+    printf("두점 p1(%d,%d), p2(%d,%d)의 거리는 %.2f, 면적은 %d 입니다.\r\n",
         p1.x, p1.y, p2.x, p2.y, d, p2.Area(p1));
+    printf("null argument P3는 p(%d,%d)로 설정되었습니다.", p3.x, p3.y);
 
     //std::cout << "안녕하세요. C++ 의 세계에 오신것을 환영합니다!\n";
 }
