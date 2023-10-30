@@ -2,7 +2,7 @@
 ## Inchon
 ### Kocharm
 오늘 배운 내용
-```
+```cpp
 class Point
 {
 public:
