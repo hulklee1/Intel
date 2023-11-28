@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 
+using namespace std;
+
 template <typename T>
 class ArrTest
 {
@@ -27,10 +29,32 @@ public:
         }
         return arr[idx];
     }
+    ArrTest<T>& operator+(ArrTest<T>& br)   // calling sequence : crr = arr + brr
+    {
+        int l = Len + br.length();
+        ArrTest<T> *cr = new ArrTest<T>(l);
+        // T* arr1 = new T[Len + brr.length()];  // 확장된 메모리
+        memcpy(cr->arr, arr, Len * sizeof(T));
+        memcpy(cr->arr + Len, br.arr, br.length() * sizeof(T));
+        return *cr;
+    }
+    ArrTest<T>& operator+=(ArrTest<T>& br)   // calling sequence : arr += brr
+    {
+        return this->append(br);
+    }
+    bool operator==(ArrTest<T>& br)   // calling sequence : if(arr == brr)
+    {
+        if (Len != br.length()) return false;
+        for (int i = 0; i < Len; i++)
+        {
+            if (arr[i] != br[i]) return false;
+        }
+        return true;
+    }
     void show()
     {
         int i;
-        printf("{");
+        printf("{ ");
         for (i = 0; i < Len - 1; i++)
             std::cout << arr[i] << ",";    std::cout << arr[i];
         printf(" }\n");
@@ -53,6 +77,16 @@ public:
         arr = arr1;
         Len += brr.length();
         return *this;
+    }
+    //  std::cout << arr[i] << ",";
+    friend std::ostream& operator<<(std::ostream& os, ArrTest& ar)
+    {
+        int i;
+        printf("{ ");
+        for (i = 0; i < ar.Len - 1; i++)
+            cout << ar.arr[i] << ",";    cout << ar.arr[i];
+        printf(" }");
+        return os;
     }
 };
 //void ArrTest<T>::show()   // { 1 2 3 4 5} ==> { 1,2,3,4,5 }
@@ -96,8 +130,16 @@ int main()
     //printf("배열 확장 %d --> %d\n\n", n, arr.append(brr).length());
     //
     //for (int i = 0; i < arr.length() ; i++) printf("ArrTest[%d] = %d\n", i, arr[i]);
+    if (arr == brr) printf("Same sequence.....\n");
+    ArrTest<double> crr = arr + brr;
     Func mul;
-    std::cout << mul(2, 3)<<"\n";
-    std::cout << mul(2.5, 3.7)<<"\n";
-    mul(arr, brr).show();
+    std::cout << mul(2, 3) << "\n";
+    std::cout << mul(2.5, 3.7) << "\n";
+    std::cout << mul(arr, brr) << "\n";    //mul(arr, brr).show();
+    std::cout << (arr += brr) <<"\n";   //
+    std::cout << crr <<"\n";   //mul(arr, brr).show();
+
+    string s = "안녕하세요";
+    cout << s << "\n";
+    cout << s.substr(2, 2) << "\n";
 }
