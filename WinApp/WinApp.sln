@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinTest01", "WinTest01\WinT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCTest02", "MFCTest02\MFCTest02\MFCTest02.vcxproj", "{1FAF68D5-AF9C-4FD0-AE67-67D95F446F34}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mfcMemo", "mfcMemo\mfcMemo.vcxproj", "{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{1FAF68D5-AF9C-4FD0-AE67-67D95F446F34}.Release|x64.Build.0 = Release|x64
 		{1FAF68D5-AF9C-4FD0-AE67-67D95F446F34}.Release|x86.ActiveCfg = Release|Win32
 		{1FAF68D5-AF9C-4FD0-AE67-67D95F446F34}.Release|x86.Build.0 = Release|Win32
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Debug|x64.ActiveCfg = Debug|x64
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Debug|x64.Build.0 = Debug|x64
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Debug|x86.ActiveCfg = Debug|Win32
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Debug|x86.Build.0 = Debug|Win32
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Release|x64.ActiveCfg = Release|x64
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Release|x64.Build.0 = Release|x64
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Release|x86.ActiveCfg = Release|Win32
+		{CBE2A0E9-C3C3-4BC7-9CA9-AAB8FC25D282}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
