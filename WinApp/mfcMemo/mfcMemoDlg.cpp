@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "mfcMemo.h"
 #include "mfcMemoDlg.h"
+#include "CmfcFindDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -62,6 +63,7 @@ CmfcMemoDlg::CmfcMemoDlg(CWnd* pParent /*=nullptr*/)
 void CmfcMemoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT_MEMO, mEditMemo);
 }
 
 BEGIN_MESSAGE_MAP(CmfcMemoDlg, CDialogEx)
@@ -71,6 +73,10 @@ BEGIN_MESSAGE_MAP(CmfcMemoDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_OPEN, &CmfcMemoDlg::OnMenuOpen)
 	ON_WM_MENUSELECT()
 	ON_COMMAND(ID_MENU_ABOUT, &CmfcMemoDlg::OnMenuAbout)
+	ON_COMMAND(ID_MENU_FIND, &CmfcMemoDlg::OnMenuFind)
+	ON_COMMAND(ID_MENU_NEXT, &CmfcMemoDlg::OnMenuNext)
+	ON_COMMAND(ID_MENU_UTF8, &CmfcMemoDlg::OnMenuUtf8)
+	ON_COMMAND(ID_MENU_ANSI, &CmfcMemoDlg::OnMenuAnsi)
 END_MESSAGE_MAP()
 
 
@@ -106,6 +112,7 @@ BOOL CmfcMemoDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	mAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCEL1));
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -176,27 +183,36 @@ void CmfcMemoDlg::OnMenuOpen()	// File Open Menu 처리기
 	if (!GetOpenFileName(&ofn)) return;
 
 	str = buf;  // CString <== WCHAR,  CString <== char
-	
-	// C 언어의 표준함수. ANSI encoding
-	//FILE* fp = fopen(fName, "rb");	
-	//while (fgets(buf, 512, fp))
-	//{
-	//	((CEdit*)GetDlgItem(IDC_EDIT1))->GetWindowText(str);
-	//	GetDlgItem(IDC_EDIT1)->SetWindowText(str + buf);
-	//}
-
-	// C++ stream 표준 .UTF-8 encoding
-	wchar_t buf1[512];
-	std::locale::global(std::locale(".UTF-8"));
-	std::wifstream ff(fName);
-	for (; ff.getline(buf1, 512);)
+		
+	if (mEncoding == 0) // C 언어의 표준함수. ANSI encoding
 	{
-		((CEdit*)GetDlgItem(IDC_EDIT1))->GetWindowText(str);
-		str += buf1; str += "\r\n";
-		GetDlgItem(IDC_EDIT1)->SetWindowText(str);
+		FILE* fp = fopen(fName, "rb");	
+		while (fgets(buf, 512, fp))
+		{
+			((CEdit*)GetDlgItem(IDC_EDIT1))->GetWindowText(str);
+			GetDlgItem(IDC_EDIT1)->SetWindowText(str + buf);
+		}
+	}	
+	else if (mEncoding == 1) // C++ stream 표준 .UTF-8 encoding
+	{
+		wchar_t buf1[512];
+		std::locale::global(std::locale(".UTF-8"));
+		std::wifstream ff(fName);
+		for (; ff.getline(buf1, 512);)
+		{
+			str = buf1;
+			AddText(str); AddText("\r\n");
+		}
 	}
 }
 
+void CmfcMemoDlg::AddText(CString s)
+{
+	CString str;
+	((CEdit*)GetDlgItem(IDC_EDIT1))->GetWindowText(str);
+	str += s;
+	GetDlgItem(IDC_EDIT1)->SetWindowText(str);
+}
 
 void CmfcMemoDlg::OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu)
 {
@@ -209,4 +225,58 @@ void CmfcMemoDlg::OnMenuAbout()
 {
 	CAboutDlg dlg;
 	dlg.DoModal();
+}
+
+void CmfcMemoDlg::OnMenuFind()
+{
+	CmfcFindDlg dlg;
+	if (dlg.DoModal() == IDOK) // FIND 할 문자열 입력
+	{
+		CString s;
+		mEditMemo.GetWindowText(s);
+		sFind = dlg.mStr;
+		int start = s.Find(dlg.mStr);
+		int end = start + dlg.mStr.GetLength();
+		mEditMemo.SetSel(start, end);
+		pos = start + 1;
+	}
+}
+
+void CmfcMemoDlg::OnMenuNext()
+{
+	CString s;
+	mEditMemo.GetWindowText(s);
+	int start = s.Find(sFind, pos);
+	int end = start + sFind.GetLength();
+	mEditMemo.SetSel(start, end);
+	pos = start + 1;
+}
+
+
+BOOL CmfcMemoDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (mAccel)
+	{
+		if (TranslateAccelerator(m_hWnd, mAccel, pMsg))	return TRUE;
+	}
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CmfcMemoDlg::OnMenuUtf8()
+{
+	CMenu* m = GetMenu();
+	m->CheckMenuItem(ID_MENU_UTF8, MF_CHECKED);
+	m->CheckMenuItem(ID_MENU_ANSI, MF_UNCHECKED);
+	mEncoding = 1;
+}
+
+
+void CmfcMemoDlg::OnMenuAnsi()
+{
+	CMenu* m = GetMenu();
+	m->CheckMenuItem(ID_MENU_UTF8, MF_UNCHECKED);
+	m->CheckMenuItem(ID_MENU_ANSI, MF_CHECKED);
+	mEncoding = 0;
 }
