@@ -72,3 +72,5 @@
 /WinFormCS/WinFormTest01-Base/obj/Debug
 /WinFormCS/WinFormTest02-DBM/bin/Debug
 /WinFormCS/WinFormTest02-DBM/obj/Debug
+*.mdf
+*.ldf
