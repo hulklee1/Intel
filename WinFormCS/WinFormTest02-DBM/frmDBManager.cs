@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,38 +41,83 @@ namespace WinFormTest02_DBM
             }
         }
 
-        string[] RunSql(string sql) // Select vs Others
+        ArrayList ColName = new ArrayList();  // 필드 이름 List
+        List<object[]> RunSql(string sql) // Select vs Others
         {
+            List<object[]> result = new List<object[]>();
             sqlCom.CommandText = sql;
-            if(sql.Trim().ToLower().Substring(0,6) == "select")
+            try
             {
-                SqlDataReader sr = sqlCom.ExecuteReader();
-                for(int i = 0;i<sr.FieldCount;i++) // Column 생성
+                if (sql.Trim().ToLower().Substring(0, 6) == "select")  // Sele.. sel.. SEL..__Sel
                 {
-                    string colName = sr.GetName(i);
-                    dataView.Columns.Add(colName, colName);
+                    SqlDataReader sr = sqlCom.ExecuteReader();
+                    ColName.Clear();
+                    for (int i = 0; i < sr.FieldCount; i++) // Column Name
+                    {
+                        ColName.Add(sr.GetName(i));
+                    }
+                    for (; sr.Read();) // 1 record read
+                    {
+                        object[] oarr = new object[sr.FieldCount];
+                        sr.GetValues(oarr);
+                        result.Add(oarr);
+                        ////string str = ""; // 1 Line add
+                        ////for(int i = 0; i < sr.FieldCount; i++)
+                        ////{
+                        ////    object o = sr.GetValue(i);
+                        ////    if (i == 0) str = $"{o}";
+                        ////    else        str += $",{o}";
+                        ////}
+                    }
+                    sr.Close();
                 }
-
+                else
+                {
+                    int n = sqlCom.ExecuteNonQuery();
+                }
+                sbLabel3.Text = "OK";
+                return result;
             }
-            SqlDataReader sr = sqlCom.ExecuteReader();
-            for(int i = 0;i<sr.FieldCount;i++) // Column 생성
+            catch(Exception ex)
             {
-                string colName = sr.GetName(i);
+//                MessageBox.Show(ex.Message);
+                sbLabel3.AutoSize = true;
+                sbLabel3.Text = ex.Message;
+                return null;
+            }
+        }
+        private void mnuRun_Click(object sender, EventArgs e)
+        {
+            string sql = tbSql.SelectedText;
+            if(sql == "") sql = tbSql.Text;
+            List<object[]> r = RunSql(sql);
+            if (r == null) return;
+
+            dataView.Rows.Clear();
+            dataView.Columns.Clear();
+            for (int i = 0; i < ColName.Count; i++) // Column 생성
+            {
+                string colName = (string)ColName[i];
                 dataView.Columns.Add(colName, colName);
             }
-            for(;sr.Read();)
+            for (int i = 0; i < r.Count; i++) // 1 record read
             {
                 int nRow = dataView.Rows.Add(); // 1 Line add
-                for(int i = 0; i < sr.FieldCount; i++)
+                object[] o = r[i];
+                for (int j = 0; j < ColName.Count; j++)
                 {
-                    object o = sr.GetValue(i);
-                    dataView.Rows[nRow].Cells[i].Value = o;
+                    dataView.Rows[nRow].Cells[j].Value = o[j];
                 }
             }
         }
-        private void mnuSql1_Click(object sender, EventArgs e)
+
+        private void mnuFont_Click(object sender, EventArgs e)
         {
-            string sql = "Select * from person";
+            if (fontDialog1.ShowDialog() == DialogResult.OK)
+            {
+                tbSql.Font = fontDialog1.Font;
+                sbLabel2.Text = tbSql.Font.Name;
+            }
         }
     }
 }
