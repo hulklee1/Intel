@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormTest02-DBM", "WinFor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormTest03-Paint", "WinFormTest03-Paint\WinFormTest03-Paint.csproj", "{B76F7120-1D24-4923-A6CE-E02962C9214C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormTest04-Term", "WinFormTest04-Term\WinFormTest04-Term.csproj", "{42187226-9770-4399-992A-6A7AEEB624B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B76F7120-1D24-4923-A6CE-E02962C9214C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B76F7120-1D24-4923-A6CE-E02962C9214C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B76F7120-1D24-4923-A6CE-E02962C9214C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42187226-9770-4399-992A-6A7AEEB624B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42187226-9770-4399-992A-6A7AEEB624B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42187226-9770-4399-992A-6A7AEEB624B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42187226-9770-4399-992A-6A7AEEB624B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
