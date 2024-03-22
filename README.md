@@ -29,3 +29,28 @@ public:
     }
 };
 ```
+
+
+오늘 배운 내용  -  2024-03-22  
+
+void seg(int sel, uint8_t c)
+{	
+	PORTB |= 0X0F;
+	PORTB &= ~(1 << (3-sel));
+	PORTA = c;		// 숫자 데이터 출력
+	_delay_ms(10);	// 0.01 초 간격으로 전환
+}
+
+void FND_4(char *inf) // segment Image 배열
+{
+	for(int i = 0;i < 4;i++)
+	{		
+		seg(i, *(inf+i));
+	}
+}
+
+void Trans(int num)  // 정수를 입력받아서 16진수 문자열로 변환 : 65535 ==> 0xFFFF
+{	
+	int n4 = num / 0x10000;
+	num %
+}
