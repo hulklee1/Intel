@@ -31,8 +31,9 @@ public:
 ```
 
 
-오늘 배운 내용  -  2024-03-22  
+## 오늘 배운 내용  -  2024-03-22  
 
+```   ''''
 void seg(int sel, uint8_t c)
 {	
 	PORTB |= 0X0F;
@@ -54,3 +55,4 @@ void Trans(int num)  // 정수를 입력받아서 16진수 문자열로 변환 :
 	int n4 = num / 0x10000;
 	num %
 }
+```
