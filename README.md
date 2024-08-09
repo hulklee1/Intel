@@ -33,7 +33,7 @@ public:
 
 ## 오늘 배운 내용  -  2024-03-22  
 
-```   ''''
+```c
 void seg(int sel, uint8_t c)
 {	
 	PORTB |= 0X0F;
